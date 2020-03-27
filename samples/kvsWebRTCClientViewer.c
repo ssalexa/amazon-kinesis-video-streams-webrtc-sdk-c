@@ -9,6 +9,7 @@ INT32 main(INT32 argc, CHAR *argv[])
     PSampleConfiguration pSampleConfiguration = NULL;
     PSampleStreamingSession pSampleStreamingSession = NULL;
     BOOL locked = FALSE;
+    signal(SIGINT, sigintHandler);
 
     // do trickle-ice by default
     printf("[KVS Master] Using trickleICE by default\n");
@@ -24,6 +25,7 @@ INT32 main(INT32 argc, CHAR *argv[])
     }
     printf("[KVS Viewer] Created signaling channel %s\n", (argc > 1 ? argv[1] : SAMPLE_CHANNEL_NAME));
 
+    printf("Time of execution:%s seconds\n", argv[2]);
     // Initialize KVS WebRTC. This must be done before anything else, and must only be done once.
     retStatus = initKvsWebRtc();
     if(retStatus != STATUS_SUCCESS) {
@@ -128,8 +130,7 @@ INT32 main(INT32 argc, CHAR *argv[])
         goto CleanUp;
     }
 
-    // Block forever
-    THREAD_SLEEP(MAX_UINT64);
+    pause();
 
 CleanUp:
 
