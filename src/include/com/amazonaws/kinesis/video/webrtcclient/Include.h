@@ -17,6 +17,7 @@ extern "C" {
 #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 #include <com/amazonaws/kinesis/video/client/Include.h>
 #include <com/amazonaws/kinesis/video/common/Include.h>
+#include <com/amazonaws/kinesis/video/webrtcclient/Stats.h>
 #pragma clang diagnostic pop
 
 /*===========================================================================================*/
@@ -1234,6 +1235,27 @@ typedef struct {
     BOOL negotiated; //!< If set to true, it is up to the application to negotiate the channel and create an
                      //!< RTCDataChannel object with the same id as the other peer.
 } RtcDataChannelInit, *PRtcDataChannelInit;
+
+
+/////////////////////////////////////////////////////
+/// Metrics/Stats Related structures
+/////////////////////////////////////////////////////
+typedef struct {
+    RTCRemoteInboundRtpStreamStats inboundStats;
+    RTCOutboundRtpStreamStats outboundStats;
+} StreamStats, *PStreamStats;
+
+typedef struct {
+    RTCIceServerStats iceServerStats;
+    RTCIceCandidatePairStats iceCandidatePairStats;
+    RTCIceCandidateStats iceCandidateStats;
+} IceStats, *PIceStats;
+
+typedef struct {
+    CHAR id[MAX_STRING_LENGTH + 1];
+    UINT64 timestamp;
+    RTCStatsType requestedTypeOfStats;
+} RTCStats, *PRTCStats;
 
 ////////////////////////////////////////////////////
 // Public functions
